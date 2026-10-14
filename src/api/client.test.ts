@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { apiClient } from "./client";
 
 function mockFetchResponse(status: number, body: unknown) {
@@ -10,8 +10,13 @@ function mockFetchResponse(status: number, body: unknown) {
 }
 
 describe("apiClient", () => {
+  beforeEach(() => {
+    vi.stubEnv("VITE_API_URL", "http://localhost:3000");
+  });
+
   afterEach(() => {
     vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
   });
 
   it("should return parsed JSON on success", async () => {
@@ -61,6 +66,36 @@ describe("apiClient", () => {
       status: 400,
       validationErrors: [{ field: "date", message: "Required" }],
     });
+  });
+
+  it("should include code when the backend returns a DomainError", async () => {
+    vi.stubGlobal(
+      "fetch",
+      mockFetchResponse(400, {
+        message: "Invalid password.",
+        code: "PASSWORD_TOO_SHORT",
+      }),
+    );
+
+    await expect(apiClient.post("/auth/register", {})).rejects.toMatchObject({
+      status: 400,
+      code: "PASSWORD_TOO_SHORT",
+    });
+  });
+
+  it("should return undefined on a successful response with an empty body", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 201,
+        json: () => Promise.reject(new SyntaxError("Unexpected end of JSON input")),
+      }),
+    );
+
+    const result = await apiClient.post("/auth/register", {});
+
+    expect(result).toBeUndefined();
   });
 
   it("should return undefined on 204 No Content", async () => {
