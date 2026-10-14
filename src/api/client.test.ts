@@ -63,6 +63,36 @@ describe("apiClient", () => {
     });
   });
 
+  it("should include code when the backend returns a DomainError", async () => {
+    vi.stubGlobal(
+      "fetch",
+      mockFetchResponse(400, {
+        message: "Invalid password.",
+        code: "PASSWORD_TOO_SHORT",
+      }),
+    );
+
+    await expect(apiClient.post("/auth/register", {})).rejects.toMatchObject({
+      status: 400,
+      code: "PASSWORD_TOO_SHORT",
+    });
+  });
+
+  it("should return undefined on a successful response with an empty body", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 201,
+        json: () => Promise.reject(new SyntaxError("Unexpected end of JSON input")),
+      }),
+    );
+
+    const result = await apiClient.post("/auth/register", {});
+
+    expect(result).toBeUndefined();
+  });
+
   it("should return undefined on 204 No Content", async () => {
     vi.stubGlobal(
       "fetch",
