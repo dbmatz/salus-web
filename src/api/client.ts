@@ -1,3 +1,5 @@
+import { getApiUrl } from "@/shared/lib/env";
+
 interface ValidationIssue {
   field: string;
   message: string;
@@ -37,7 +39,7 @@ async function request<T>(
   path: string,
   options: RequestOptions = {},
 ): Promise<T> {
-  const baseURL = import.meta.env.VITE_API_URL;
+  const baseURL = getApiUrl();
   const { token, headers, ...rest } = options;
 
   const response = await fetch(`${baseURL}${path}`, {

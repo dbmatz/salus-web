@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { apiClient } from "./client";
 
 function mockFetchResponse(status: number, body: unknown) {
@@ -10,8 +10,13 @@ function mockFetchResponse(status: number, body: unknown) {
 }
 
 describe("apiClient", () => {
+  beforeEach(() => {
+    vi.stubEnv("VITE_API_URL", "http://localhost:3000");
+  });
+
   afterEach(() => {
     vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
   });
 
   it("should return parsed JSON on success", async () => {
