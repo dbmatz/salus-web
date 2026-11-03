@@ -31,8 +31,8 @@ com o código. A pasta `.claude` **não** deve estar no `.gitignore`.
 2. `architecture-principles-frontend` (código) e `salus-context` (produto e
    design), cada uma no seu assunto.
 3. `frontend-design`. É uma skill genérica de design: serve para o processo de
-   exploração visual, mas **nunca** substitui a paleta da flor de maracujá, o
-   uso exclusivo de tokens, a fonte Geist, o tom acolhedor nem o mobile-first.
+   exploração visual, mas **nunca** substitui a paleta do Figma do SALUS, o
+   uso exclusivo de tokens, a fonte Poppins, o tom acolhedor nem o mobile-first.
    Ignore dela, neste projeto, a orientação de escolher novas fontes, definir
    paleta em hex e assumir "risco estético" que contrarie a `salus-context`.
 
@@ -120,7 +120,7 @@ ou rejeita.
 | Estilo | Tailwind CSS v4 | Mobile-first por padrão, configuração em CSS |
 | Componentes | shadcn/ui, estilo `base-nova` | Código copiado para o projeto, editável |
 | Ícones | lucide-react | Padrão do shadcn |
-| Fonte | Geist Variable | Já instalada via `@fontsource-variable/geist` |
+| Fonte | Poppins (interface) + EB Garamond (wordmark) | Via `@fontsource/poppins` e `@fontsource/eb-garamond`, conforme o Figma |
 | Estado de servidor | TanStack Query | Cache, loading e erro sem reinventar |
 | Formulários | React Hook Form + Zod | Validação alinhada ao backend |
 | Rotas | React Router (`createBrowserRouter`) | — |
@@ -304,7 +304,7 @@ internacionalização, SEO.
 | Mapeamento de `code` do backend para o campo de senha | Implementado (`register-errors.ts`), em revisão |
 | Validação das regras de senha no frontend (Zod, mensagem por regra) | Feita; checklist em tempo real **não** iniciado |
 | Componentes shadcn em uso | `Button`, `Card`, `Field`, `Input`, `Label`, `Separator` |
-| Paleta da flor de maracujá em `src/index.css` | Aplicada (claro e escuro) |
+| Cores e tipografia em `src/index.css` | Alinhadas ao Figma (modo claro); modo escuro derivado e provisório |
 | Painel de marca do cadastro | Flor de maracujá em SVG (proposta, em revisão); logo ainda indefinido |
 | Rotas | `/`, `/register` e fallback 404 |
 | Alternância claro/escuro | Construída (`ThemeToggle`, preferência em `localStorage`) |
