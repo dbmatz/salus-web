@@ -3,6 +3,8 @@ import { Link } from "react-router";
 import { PassionFlower } from "@/shared/components/brand/passion-flower";
 import { ThemeToggle } from "@/shared/components/layout/theme-toggle";
 import { RegisterForm } from "./register-form";
+import Logo from "/Logo.svg";
+import { PrivacyNote } from "@/shared/components/privacy-note";
 
 export function RegisterPage() {
   const [created, setCreated] = useState(false);
@@ -19,7 +21,7 @@ export function RegisterPage() {
       <div className="flex flex-col">
         <header className="flex h-16 items-center justify-between px-4">
           <Link to="/" className="text-lg font-semibold tracking-tight text-primary">
-            Salus
+            <img src={Logo} alt="Salus" className="h-8 w-auto" />
           </Link>
           <ThemeToggle />
         </header>
@@ -43,17 +45,30 @@ export function RegisterPage() {
           ) : (
             <section className="space-y-8">
               <div className="space-y-2">
-                <h1 className="text-2xl font-semibold tracking-tight">
-                  Criar sua conta
+                <h1 className="text-xs font-semibold tracking-tight text-accent">
+                  CRIE SUA CONTA
                 </h1>
-                <p className="text-muted-foreground">
+                <h1 className="text-2xl font-semibold tracking-tight">
                   Leva só um instante. Depois é só contar como foi o seu dia.
-                </p>
+                </h1>
               </div>
               <RegisterForm onSuccess={() => setCreated(true)} />
             </section>
           )}
+          <PrivacyNote className="mt-6">
+            Seus registros são privados. Você decide o que compartilhar.
+          </PrivacyNote>
+          <div className="flex justify-center text-center gap-1 mt-6">
+            <p className="text-sm">Já tem uma conta?</p>
+            <p className="text-md font-semibold">
+              <Link to="/login" className="text-primary underline">
+                Entrar
+              </Link>
+            </p>
+          </div>
         </main>
+
+
       </div>
     </div>
   );
