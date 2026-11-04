@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { PassionFlower } from "@/shared/components/brand/passion-flower";
-import { ThemeToggle } from "@/shared/components/layout/theme-toggle";
 import { RegisterForm } from "./register-form";
 import Logo from "/Logo.svg";
 import { PrivacyNote } from "@/shared/components/privacy-note";
+import CriarConta from "/criarConta.svg";
 
 export function RegisterPage() {
   const [created, setCreated] = useState(false);
@@ -12,20 +11,16 @@ export function RegisterPage() {
   return (
     <div className="grid min-h-svh md:grid-cols-2">
       <aside className="hidden flex-col items-center justify-center gap-8 bg-secondary p-12 text-secondary-foreground md:flex">
-        <PassionFlower className="size-72" />
-        <p className="max-w-xs text-center text-xl font-medium text-balance">
-          Um espaço tranquilo para contar como foi o seu dia
-        </p>
+        <img src={CriarConta} alt="Criar Conta" />
       </aside>
 
       <div className="flex flex-col">
-        <header className="flex h-16 items-center justify-between px-4">
+        <header className="mx-auto flex w-full max-w-lg h-16 items-center justify-between px-4">
           <Link to="/" className="text-lg font-semibold tracking-tight text-primary">
             <img src={Logo} alt="Salus" className="h-8 w-auto" />
           </Link>
-          <ThemeToggle />
         </header>
-        <main className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center px-4 py-8">
+        <main className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center px-4 py-8">
           {created ? (
             <section className="space-y-3">
               <h1 className="text-2xl font-semibold tracking-tight">
@@ -53,22 +48,19 @@ export function RegisterPage() {
                 </h1>
               </div>
               <RegisterForm onSuccess={() => setCreated(true)} />
-            </section>
-          )}
-          <PrivacyNote className="mt-6">
-            Seus registros são privados. Você decide o que compartilhar.
-          </PrivacyNote>
-          <div className="flex justify-center text-center gap-1 mt-6">
-            <p className="text-sm">Já tem uma conta?</p>
-            <p className="text-md font-semibold">
-              <Link to="/login" className="text-primary underline">
-                Entrar
-              </Link>
-            </p>
-          </div>
+              <PrivacyNote className="mt-6">
+                Seus registros são privados. Você decide o que compartilhar.
+              </PrivacyNote>
+              <div className="flex justify-center text-center gap-1 mt-6">
+                <p className="text-sm">Já tem uma conta?</p>
+                <p className="text-md font-semibold">
+                  <Link to="/login" className="text-primary underline">
+                    Entrar
+                  </Link>
+                </p>
+              </div>
+            </section>)}
         </main>
-
-
       </div>
     </div>
   );
