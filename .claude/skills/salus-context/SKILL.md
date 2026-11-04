@@ -82,50 +82,89 @@ ruim não pode virar uma experiência pior por causa da interface.
 
 ### 4.1 Conceito
 
-Paleta inspirada na **flor de maracujá (Passiflora)**. A flor, e não o fruto,
-é a referência: entrega delicadeza e serenidade, e foge do clínico por um
-caminho diferente do calor terroso.
+A logo é uma **flor de maracujá (Passiflora)** em tons de azul ("versão
+Profunda"). A paleta segue a logo: um azul-ardósia sereno como cor de marca,
+lavanda bem clara como fundo e neutros levemente azulados. Delicadeza e
+serenidade, sem cair no azul-hospital (o azul é dessaturado e acinzentado).
+
+**Fonte da verdade:** o arquivo do Figma do SALUS
+(https://www.figma.com/design/5jRbrW31ZKy2hozI2LeFuR/SALUS), coleções de
+variáveis `Primitives` e `Color` e text styles `SALUS/*`. Mudou no Figma, muda
+em `src/index.css` na mesma etapa.
 
 ### 4.2 Papéis de cor (tokens semânticos do shadcn)
 
-Os valores `oklch()` vivem **apenas** em `src/index.css` (`:root` e `.dark`).
-Esta tabela registra só a intenção de cada token:
+Os valores de cor vivem **apenas** em `src/index.css` (`:root` e `.dark`), com
+um comentário em cada linha apontando o token do Figma de origem. Esta tabela
+registra só a intenção:
 
-| Parte da flor | Token | Papel |
+| Token do Figma | Token no código | Papel |
 |---|---|---|
-| Pétalas brancas | `--background`, `--card`, `--popover` | Superfícies quase neutras, com um traço quase imperceptível de violeta |
-| Coroa de filamentos violeta (H ≈ 300) | `--primary` | Cor de identidade e ação principal |
-| Folhagem verde (H ≈ 150) | `--secondary` | Apoio; complementa o violeta sem competir |
-| Centro amarelo-esverdeado (H ≈ 110) | `--accent` | Destaque pontual, hover e seleção |
-| — | `--destructive` | **Continua vermelho.** Convenção universal de erro e perigo |
-| — | `--muted`, `--muted-foreground` | Texto e áreas secundárias |
-| — | `--chart-1` a `--chart-5` | Paleta categórica para gráficos e calendário: violeta, verde, amarelo-esverdeado, violeta-rosado, azul suave |
+| `bg/canvas` | `--background` | Fundo da página, lavanda quase branca |
+| `bg/surface` | `--card`, `--popover` | Superfícies brancas sobre o fundo |
+| `text/primary` | `--foreground` | Texto principal |
+| `action/primary` | `--primary` | Cor de marca e ação principal (azul-ardósia) |
+| `action/secondary` | `--secondary` | Ação secundária, fundos de marca suaves |
+| `action/ghost-hover` | `--accent` | Hover e seleção |
+| `bg/surface-subtle`, `text/secondary` | `--muted`, `--muted-foreground` | Áreas e textos secundários |
+| `action/destructive` | `--destructive` | Erro e perigo (vinho, não vermelho vivo) |
+| `border/default` | `--border` | Bordas e divisores |
+| `border/input` | `--input` | Borda de campos (mais escura, para contraste) |
+| `border/focus` | `--ring` | Anel de foco |
+| `mood/awful` … `mood/great` | `--chart-1` … `--chart-5` | As cinco cores de humor, do pior ao melhor dia, para gráficos e calendário |
+| `brand/wordmark` | `--brand-wordmark` (`text-brand-wordmark`) | Cor do nome "SALUS" no logo |
+
+O Figma também tem `success/*` e `alert/*` (primitivos). Ainda não viraram
+token no código porque nenhuma tela usa; quando usar, crie o token aqui e em
+`src/index.css`.
 
 Regras de uso:
 
 - Em componente, só classes semânticas (`bg-primary`, `text-muted-foreground`,
-  `border-border`). **Nunca** `oklch()` ou hex.
+  `border-border`). **Nunca** hex ou `oklch()`.
 - Não criar paleta paralela com nomes que colidam com os tokens do shadcn. Cor
   nova só se tiver um papel que nenhum token cobre, e ela deve ser registrada
   nesta tabela.
-- Ao editar `:root`, editar `.dark` junto: **mesmo matiz (H)**, variando só a
-  luminosidade. Nunca remover variáveis do bloco; componentes do shadcn
-  dependem de todas, incluindo `sidebar-*` e `chart-*`.
+- Ao editar `:root`, editar `.dark` junto. Nunca remover variáveis do bloco;
+  componentes do shadcn dependem de todas, incluindo `sidebar-*` e `chart-*`.
 - Cor nunca é a única forma de comunicar algo (erro, status): acompanhar de
   texto ou ícone.
 
 ### 4.3 Modo claro e escuro
 
 Os dois modos fazem parte da identidade, não são extra. Muita gente registra o
-dia à noite, e uma tela branca agressiva às 23h contradiz "acolhedor". Os dois
-precisam parecer o mesmo produto: mesma família de matiz, luminosidade
-invertida. A alternância é pela classe `dark` no `<html>`.
+dia à noite, e uma tela branca agressiva às 23h contradiz "acolhedor". A
+alternância é pela classe `dark` no `<html>`.
+
+**Pendência:** o Figma só tem o modo `Light`. Os valores do `.dark` foram
+derivados dos mesmos primitivos e são **provisórios** até o modo Dark ser
+desenhado no Figma.
 
 ### 4.4 Tipografia
 
-- Fonte: **Geist Variable** (`--font-sans`). Não trocar.
+- Fonte da interface: **Poppins** (`--font-sans`), pesos 400, 500 e 600, via
+  `@fontsource/poppins`. Não usar `font-bold` (700 não está carregado).
+- Wordmark "SALUS": **EB Garamond 500** (`font-brand`), só no logo.
 - Campos de formulário com no mínimo 16px de texto (evita zoom automático no iOS).
 - Hierarquia por peso e tamanho, não por cor chamativa.
+
+Text styles do Figma → classes Tailwind:
+
+| Figma | Tamanho / altura | Classes |
+|---|---|---|
+| `SALUS/Display` | 40 / 48 | `text-4xl font-semibold` |
+| `SALUS/Heading/H1` | 32 / 40 | `text-3xl font-semibold` |
+| `SALUS/Heading/H2` | 24 / 32 | `text-2xl font-semibold` |
+| `SALUS/Heading/H3` | 20 / 28 | `text-xl font-semibold` |
+| `SALUS/Heading/H4` | 18 / 26 | `text-lg font-medium` |
+| `SALUS/Body/Large` | 18 / 28 | `text-lg` |
+| `SALUS/Body/Medium` | 16 / 24 | `text-base` |
+| `SALUS/Body/Small` | 14 / 20 | `text-sm` |
+| `SALUS/Label/Large` | 16 / 24 | `text-base font-medium` |
+| `SALUS/Label/Medium` | 14 / 20 | `text-sm font-medium` |
+| `SALUS/Label/Small` | 12 / 16 | `text-xs font-medium` |
+| `SALUS/Caption` | 12 / 16 | `text-xs` |
+| `SALUS/Overline` | 12 / 16, espaçado | `text-xs font-semibold uppercase tracking-widest` |
 
 ### 4.5 Forma e espaçamento
 

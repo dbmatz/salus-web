@@ -50,11 +50,12 @@ export function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <FieldGroup className="gap-6">
         <Field data-invalid={!!errors.name}>
-          <FieldLabel htmlFor="name">Como podemos te chamar?</FieldLabel>
+          <FieldLabel htmlFor="name">Nome completo</FieldLabel>
           <Input
             id="name"
             type="text"
             autoComplete="name"
+            placeholder="Digite seu nome completo"
             className={INPUT_CLASS}
             aria-invalid={!!errors.name}
             {...register("name")}
@@ -82,6 +83,7 @@ export function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
             type="email"
             autoComplete="email"
             inputMode="email"
+            placeholder="você@email.com"
             className={INPUT_CLASS}
             aria-invalid={!!errors.email}
             {...register("email")}
@@ -96,10 +98,14 @@ export function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
               id="password"
               type={showPassword ? "text" : "password"}
               autoComplete="new-password"
+              placeholder="Digite sua senha"
               className={`${INPUT_CLASS} pr-12`}
               aria-invalid={!!errors.password}
               {...register("password")}
             />
+            <p className="text-sm text-muted-foreground mt-1">
+              Mínimo de 8 caracteres, com letras e números.
+            </p>
             <Button
               type="button"
               variant="ghost"
@@ -117,8 +123,8 @@ export function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
 
         <FieldError errors={[errors.root]} />
 
-        <Button type="submit" size="lg" className="h-11 text-base" disabled={isPending}>
-          {isPending ? "Criando sua conta..." : "Criar minha conta"}
+        <Button type="submit" size="lg" className="h-12 text-base text-sm" disabled={isPending}>
+          {isPending ? "Criando sua conta..." : "Criar conta"}
         </Button>
       </FieldGroup>
     </form>
